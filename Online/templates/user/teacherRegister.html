@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <style>
+        .login-div {
+            width: 34%;
+            margin: 100px auto;
+            border: 1px solid #ddd;
+            padding: 53px;
+            border-radius: 10px;
+        }
+        .invalid{
+            font-size: 12px;
+            color: red;
+            padding-left: 15px;
+            height: 17px;
+        }
+        p{
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div class="login-div">
+    <h3 style="text-align: center;color: white;">老师注册</h3>
+    <p>{{ message }}</p>
+    <form method="post">
+        <div class="form-group">
+            <label style="color: white" for="user">账号</label>
+            <input type="text" class="form-control" name="username" id="user" value="{{ username }}" placeholder="请输入账号" required>
+            <div class="invalid"></div>
+        </div>
+        <div class="form-group">
+            <label style="color: white" for="user">邮箱</label>
+            <input type="email" class="form-control" name="email" id="user" value="{{ email }}" placeholder="请输入邮箱" required>
+            <div class="invalid"></div>
+        </div>
+        <div class="form-group">
+            <label style="color: white" for="password">密码</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码" required>
+            <div class="invalid"></div>
+        </div>
+        <div class="form-group">
+            <label style="color: white" for="password">密码</label>
+            <input type="password" class="form-control" name="password2" id="password" placeholder="请再次输入密码" required>
+            <div class="invalid"></div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">注册</button>
+            </div>
+        </div>
+        <a style="color: white" href="/user/login">去登录</a>
+    </form>
+</div>
+</body>
+</html>

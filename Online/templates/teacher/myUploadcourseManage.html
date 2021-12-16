@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/teacher/courseManage.css' %}" rel="stylesheet">
+    <script type="text/javascript">
+        $(function () {
+            $(".sreachImg").click(function () {
+                if ($(".searchKey").val().trim().length > 0) {
+                    $("#searchID").click()
+                }
+            });
+        });
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div style='background: url("/static/img/bg_dark.gif");    height: 97%;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:course' %}">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'teacher:courseManage' %}">课程管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:liveStreaming' %}">课程直播</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=1">退出登录</a>
+        </li>
+    </ul>
+    <div class="courseManage">
+        <div class="upMp4Div" style="position: fixed;margin-left: 54%;cursor:pointer;">
+            <a href="{% url 'teacher:uploadMp4' %}" title="上传课程">
+                <div style="display: flex;justify-content: space-around;">
+                    <img class="upMp4" src="{% static 'img/上传.png' %}" alt="">
+                </div>
+            </a>
+        </div>
+        <div style="width: 100%;height: 25px;">
+            <a href="{% url 'teacher:courseManage' %}">
+                <div style="color: #ddd; margin-left: 5%;float: left;text-align: center;cursor: pointer;">全部课程</div>
+            </a>
+            <a href="">
+                <div style="color: #00CF7D; width: 15%;float: left;text-align: center;cursor: pointer;text-decoration: underline;">
+                    我上传的课程
+                </div>
+            </a>
+        </div>
+        {% if videoList %}
+            <div class="courseSearch">
+                <form action="" method="get">
+                    <input class="searchKey" name="sreachKey" type="text" placeholder="课程名"
+                           style="border: 0; color: black"><img class="sreachImg" src="{% static 'img/search.png' %}"
+                                                                alt="">
+                    <input id="searchID" type="submit" hidden>
+                </form>
+            </div>
+            {% for video in videoList %}
+                <div class="courseVideo" style="width: 73%;">
+                    <a href="{% url 'teacher:videoDetail' %}?videoID={{ video.videoID }}">
+                        <div class="videoInterface"
+                             style="background: url('../../static/video/img/{{ video.interfacePath }}')">
+                            <i class="iconfont">&#xe659;</i>
+                        </div>
+                    </a>
+                    <div class="produce" style="width: 47%">
+                        <h4>{{ video.name }}</h4>
+                        <p>{{ video.produce }}</p>
+                    </div>
+                    <div style="width: 14%;float: left;height: 100%; margin-left: 2%;word-wrap: break-word;word-break: normal;color: #ffffff;display: flex;align-items: center;">
+                        <a href="{% url 'teacher:deleteVideo' %}?videoID={{ video.videoID }}">
+                            <div class="btn">删除此课程</div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if paginator.num_pages > 1 %}
+                <div class="paginate">
+                    <ul id="pagination-flickr">
+                        {% if videoList.has_previous %}
+                            <li class=""><a
+                                    href="?page={{ videoList.previous_page_number }}">«Previous</a></li>
+                        {% endif %}
+                        {% for page_fo in paginator.page_range %}
+                            {% ifequal page page_fo %}
+                                <li class=""><a class="active" href="?page={{ page_fo }}">{{ page_fo }}</a></li>
+                            {% else %}
+                                <li class=""><a href="?page={{ page_fo }}">{{ page_fo }}</a></li>
+                            {% endifequal %}
+                        {% endfor %}
+
+
+                        {% if videoList.has_next %}
+                            <li class="next"><a href="?page={{ videoList.next_page_number }}">Next »</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            {% endif %}
+        {% else %}
+
+            <a href="{% url 'teacher:uploadMp4' %}">
+                <div style="text-align: center;" class="nothing">还没有课程哦，去上传</div>
+            </a>
+        {% endif %}
+    </div>
+
+</div>
+<div class="bottom">
+    赛科学习平台
+</div>
+
+
+</body>
+</html>

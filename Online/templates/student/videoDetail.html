@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.11.0.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/videoDetail.css' %}" rel="stylesheet">
+    {#    <script src="{% static 'plugin/vedio.js' %}"></script>#}
+
+    <link rel="stylesheet" href="{% static 'video/css/ckin.css' %}">
+    <script type="text/javascript">
+        function autoHeight() {
+            var h = $(window).height();
+            var bottom = $(".bottom").height();
+            var auto = $("#auto").height();
+            console.log(h, auto)
+            if ((auto) < h) {
+                $("#auto").css({'height': h, 'overflow': 'none'});
+            } else {
+                return false;
+            }
+        }
+
+        function getTime() {
+            var myDate = new Date;
+            var year = myDate.getFullYear(); //获取当前年
+            var mon = myDate.getMonth() + 1; //获取当前月
+            var date = myDate.getDate(); //获取当前日
+            var h = myDate.getHours();//获取当前小时数(0-23)
+            var m = myDate.getMinutes();//获取当前分钟数(0-59)
+            var s = myDate.getSeconds();//获取当前秒
+            {#alert(year, mon, date, weeks[week])#}
+            if (mon < 10) {
+                mon = "0" + mon
+            }
+            if (date < 10) {
+                date = "0" + date
+            }
+            if (h < 10) {
+                h = "0" + h
+            }
+            if (m < 10) {
+                m = "0" + m
+            }
+            if (s < 10) {
+                s = "0" + s
+            }
+
+            return year + "-" + mon + "-" + date + " " + h + ":" + m + ":" + s
+        }
+
+        $(function () {
+            autoHeight();
+            $(window).resize(autoHeight);
+
+            {#提交评论#}
+            $(".submitBtn").click(function () {
+                let videoID = $(".writeComment input").eq(0).val();
+                let videoComment = $(".writeComment textarea").eq(0).val().trim();
+                if (videoComment.length > 0) {
+                    {#console.log(videoID, videoComment);#}
+                    $.post("/student/submitVideo/",
+                        {
+                            videoID: videoID,
+                            videoComment: videoComment
+                        },
+                        function (data, status) {
+                            if (data.success == "success") {
+                                $(".writeComment textarea").eq(0).val('')
+                                $('<div class="comment">\n' +
+                                    '                    <div class="commentAvatar">' +
+                                    '<img style="height: 29px"  src="' + $("#pAvatar").val() + '" ></div>\n' +
+                                    '                    <div class="commentName">\n' +
+                                    '                        <div>' + data.name + '</div>\n' +
+                                    '                        <div style="width:31%">' + getTime() + '</div>\n' +
+                                    '                    </div>\n' +
+                                    '                    <div class="commetnContent">' + videoComment + '</div>\n' +
+                                    '                </div>').insertBefore('.comment:first');
+                                let commentDIV = $("#linglunshu");
+                                commentDIV.text((parseInt(commentDIV.text().split("条")[0]) + 1) + "条评论");
+
+                            }
+                        });
+                }
+
+            });
+
+            var lookAddFlag = true;
+            $(".ckin-play, .container video").click(function () {
+                if (lookAddFlag) {
+                    let lookNum = $(".look").eq(0);
+                    lookNum.text("观看：" + (1 + parseInt(lookNum.text().split("：")[1])));
+                    lookAddFlag = false;
+                    let videoID = $(".writeComment input").eq(0).val();
+                    $.get("/student/VideoLookNum/",
+                        {
+                            videoID: videoID,
+                        },
+                        function (data, status) {
+                            if (data === "success") {
+
+                            }
+                        });
+                }
+
+            });
+
+            $(".collectBtn:first").click(function () {
+
+                let collectAddFlag = $(".collectBtn:first").text();
+                if (collectAddFlag == "收藏") {
+                    let collectNum = $(".look").eq(1);
+                    collectNum.text("收藏：" + (1 + parseInt(collectNum.text().split("：")[1])));
+                    let videoID = $(".writeComment input").eq(0).val();
+                    $.get("/student/VideoCollectNum/",
+                        {
+                            videoID: videoID,
+                        },
+                        function (data, status) {
+                            if (data === "success") {
+                                $(".collectBtn:first").text("取消收藏")
+                            }
+                        });
+                } else {
+                    let collectNum = $(".look").eq(1);
+                    collectNum.text("收藏：" + (parseInt(collectNum.text().split("：")[1]) - 1));
+                    collectAddFlag = true;
+                    let videoID = $(".writeComment input").eq(0).val();
+                    $.get("/student/VideoCollectNumCancel/",
+                        {
+                            videoID: videoID,
+                        },
+                        function (data, status) {
+                            if (data === "success") {
+                                $(".collectBtn:first").text("收藏")
+                            }
+                        });
+                }
+
+            });
+        });
+
+
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div id="auto" style='background: url("/static/img/bg_dark.gif"); '>
+    <input id="pAvatar" type="text" value="/static/media/{{ student.studentinfo.avatar }}" hidden>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my " href="{% url 'student:index' %}">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'student:course' %}">课程</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:liveList' %}">直播</a>
+        </li>
+        {#        <li class="nav-item">#}
+{#            <a class="nav-link my" href="{% url 'student:assignments' %}">随堂作业</a>#}
+{#        </li>#}
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    <div class="courseTitle">
+        <a href="{% url 'student:course' %}"><span>课程列表</span></a> / <a href="#"><span>课程</span></a>
+    </div>
+    <div class="course">
+        <div style="border: 0 solid;float: left;width: 80%;margin-left: 10%;margin-top: 20px;">
+            <section class="demo-section demo-section--light" id="demo" style="width: 63%;float: left;">
+                <div class="container">
+                    <video poster="{% static 'video/img' %}/{{ video.interfacePath }}"
+                           src="{% static 'video/video' %}/{{ video.path }}" data-ckin="default" data-overlay="1"
+                           data-title="">
+                    </video>
+                </div>
+            </section>
+            <div class="videoInfo">
+                <h4>{{ video.name }}</h4>
+                <div class="look">观看：{{ video.lookNum }}</div>
+                <div class="look">收藏：{{ collectNum }}</div>
+                {#                <div><i class="iconfont" style="font-size: 25px">&#xe7c5;</i></div>#}
+
+                {% if isCollect|length > 0 %}
+                    <div class="collectBtn">取消收藏</div>
+                {% else %}
+                    <div class="collectBtn">收藏</div>
+                {% endif %}
+
+
+                {% if isComplete %}
+                    <div class="collectBtn">已完成{{ isComplete.score.score }}</div>
+                {% else %}
+                    <a href="{% url 'student:test' %}?testID={{ video.homework.homeWorkID }}&videoID={{ videoID }}">
+                        <div class="collectBtn">随堂作业</div>
+                    </a>
+                {% endif %}
+            </div>
+
+            <div class="produce">
+                <p>{{ video.produce }}</p>
+            </div>
+        </div>
+        <div class="commentDIv" style="float: none">
+            <div class="writeComment">
+                <textarea name="videoComment" id="" cols="30" rows="10" placeholder="写评论" required></textarea>
+                <div class="submitBtn">提交</div>
+                {#                    <input type="submit" value="提交" class="submitBtn" style="border: 0;">#}
+
+                <input type="text" name="videoID" value="{{ videoID }}" hidden>
+
+            </div>
+            <div style="    border-bottom: 1px solid #ddd;" id="linglunshu">{{ videoCommentList|length }}条评论</div>
+            {% for videoComment in videoCommentList %}
+                <div class="comment">
+                    <div class="commentAvatar">
+                        <img style="height: 29px" src="{% static 'media' %}/{{ videoComment.student.studentinfo.avatar }}" alt="">
+                    </div>
+                    <div class="commentName">
+                        <div>
+                            {% if videoComment.student.studentinfo.name %}
+                                {{ videoComment.student.studentinfo.name }}
+                            {% else %}
+                                {{ videoComment.student.username }}
+                            {% endif %}
+                        </div>
+                        <div style="width:31%">{{ videoComment.dateTime|date:'Y-m-d H:m:s' }}</div>
+                    </div>
+                    <div class="commetnContent">{{ videoComment.content }}</div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="bottom">
+        赛科学习平台
+    </div>
+
+</div>
+<script src="{% static 'video/js/ckin.js' %}"></script>
+
+</body>
+</html>

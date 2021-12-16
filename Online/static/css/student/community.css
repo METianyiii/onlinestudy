@@ -1,0 +1,231 @@
+@font-face {
+  font-family: 'iconfont';  /* Project id 1922690 */
+  src: url('//at.alicdn.com/t/font_1922690_ljvh1i0lna.woff2?t=1628211310795') format('woff2'),
+       url('//at.alicdn.com/t/font_1922690_ljvh1i0lna.woff?t=1628211310795') format('woff'),
+       url('//at.alicdn.com/t/font_1922690_ljvh1i0lna.ttf?t=1628211310795') format('truetype');
+}
+
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:25px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    color: #d9d7d7;
+}
+
+.videoInterface:hover .iconfont, .iconfont:hover{
+    color: #F97307;
+}
+
+
+.my{
+    color: #909EAE;
+}
+
+.my:hover{
+    color: white;
+}
+
+html, body{
+        height: 100%;
+    width: 100%;
+}
+
+.myactive{
+    color: #fff;
+    /* background-color: #050e18; */
+    border-bottom: 2px solid #F97307;
+    border-radius: 0;
+}
+.myactive:hover{
+    color: white;
+}
+
+.computer{
+    background: url(/static/img/home1_img1.png);
+    width: 40%;
+    height: 39%;
+    margin: 150px auto;
+    background-size: 100% 100%;
+}
+
+.bottom{
+    color: #b9b2b2;
+    text-align: center;
+    /*margin-top: 30px;*/
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+    align-items: flex-end;
+    background: url(/static/img/bg_dark.gif);
+    height: 27px;
+    width: 100%;
+}
+
+.course{
+    /*border: 1px solid;*/
+    width: 59%;
+    margin: 0 auto;
+    /*height: 90%;*/
+    background: #e5e4e4;
+}
+
+.courseTitle{
+    width: 100%;
+    font-size: 17px;
+    /* font-weight: 600; */
+    color: #2e2c2c;
+    float: left;
+    padding-right: 50px;
+    height: 60px;
+    text-align: right;
+    background: #DAE5F7;
+    line-height: 60px;
+}
+
+.courseSearch{
+        float: left;
+    width: 33%;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    height: 30px;
+    background: white;
+    margin-left: 30%;
+    margin-top: 30px;
+}
+
+.courseSearch input{
+        outline: none;
+    width: 68%;
+    border-radius: 15px;
+    border: 0;
+}
+
+.courseSearch img{
+        width: 30px;
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.communityList, .homeWorkList{
+        width: 45%;
+    /*border: 1px solid;*/
+    float: left;
+    margin-left: 27%;
+}
+.homeWorkList p, .homeWorkList span{
+    color: #ddd;
+}
+.comment{
+    border: 1px solid #ddd;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    /* border-bottom: 0; */
+    overflow: hidden;
+    margin-top: 8px;
+    color: #e0d8d8;
+}
+
+.commentAvatar {
+    background: url(../../img/头像.png);
+    width: 29px;
+    height: 29px;
+    float: left;
+    background-size: 29px 29px;
+}
+
+.commentName div:nth-of-type(1){
+    float: left;
+    height: 29px;
+    display: flex;
+    align-content: flex-end;
+    align-items: flex-end;
+    /* width: 7%; */
+    padding-left: 10px;
+    margin-right: 20px;
+}
+.commentName div:nth-of-type(2){
+    float: left;
+    height: 29px;
+    display: flex;
+    align-content: flex-end;
+    align-items: flex-end;
+    width: 70%;
+    justify-content: flex-start;
+    padding-right: 40px;
+    font-size: 14px;
+}
+
+.commentContent{
+    width: 65%;
+    cursor: pointer;
+    float: left;
+    margin-left: 5%;
+    word-wrap: break-word;
+    word-break: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+        font-size: 12px;
+}
+
+.commentTitle:hover{
+    color: #F97307;
+}
+
+.commentTitle {
+    width: 55%;
+    float: left;
+    cursor: pointer;
+    margin-left: 5%;
+    word-wrap: break-word;
+    word-break: normal;
+    font-size: 18px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+        margin-top: 5px;
+    margin-bottom: 6px;
+
+}
+
+.commentContent:hover+.commentTitle{
+        color: #F97307;
+}
+
+.bianjiwenzhang{
+    width: 64px;
+    height: 64px;
+    position: fixed;
+    /*border: 1px solid #ffffff;*/
+    margin-left: 75%;
+    margin-top: 8%;
+}
+
+.bianjiwenzhang a{
+
+}
+
+.bianjiwenzhang a img{
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 3px 4px #838383;
+    border-radius: 30px;
+}
+
+.nothing {
+    text-align: center;
+    margin-top: 100px;
+    color: white;
+    text-decoration: underline;
+}
+
+.nothing a{
+    color: white;
+}

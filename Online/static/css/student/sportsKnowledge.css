@@ -1,0 +1,520 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.my{
+    color: #909EAE;
+}
+
+.my:hover{
+    color: white;
+}
+
+
+.myactive{
+    color: #fff;
+    /* background-color: #050e18; */
+    border-bottom: 2px solid #F97307;
+    border-radius: 0;
+}
+.myactive:hover{
+    color: white;
+}
+
+
+.all {
+    height: 100%;
+    width: 100%;
+    /*background-image: linear-gradient(to right, #184A53, #7E9A74);*/
+    /*overflow: hidden;*/
+}
+
+.left {
+    width: 15%;
+    height: 100%;
+    /*background: #184A53;*/
+    float: left;
+}
+
+.tuoyuan {
+
+}
+
+.hello {
+    cursor: pointer;
+    line-height: 52px;
+    height: 52px;
+    color: white;
+    margin-left: 4%;
+}
+
+.hello img {
+    float: left;
+    margin-left: 50px;
+    height: 28px;
+    margin-top: 11px;
+}
+
+.hello span {
+    line-height: 52px;
+    height: 52px;
+    display: inline-block;
+    float: left;
+    margin-left: 8%;
+}
+
+.h-g {
+    margin-top: 20px;
+}
+
+.xiala {
+    color: white;
+    overflow: hidden;
+}
+
+.huangsebg {
+    width: 63%;
+    float: right;
+    margin-top: 17px;
+    font-size: 13px;
+    color: #DDD;
+    cursor: pointer;
+}
+
+.huangsebg div {
+    width: 94%;
+    float: right;
+    background-image: linear-gradient(45deg, #1E4F55, #285658);
+    padding-left: 3%;
+    position: relative;
+}
+
+.huangsebg div:hover {
+    color: white;
+}
+
+.right {
+    height: 100%;
+    width: 85%;
+    /*float: right;*/
+    margin: 0 auto;
+}
+
+.titlename {
+    background: #144853;
+    width: 290px;
+    height: 45px;
+    color: white;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/**/
+.picbody {
+    background: #eceff0;
+    width: 100%;
+    height: 87%;
+    /*border-radius: 31px 0 0 20px;*/
+    margin-top: 14px;
+    float: left;
+
+}
+
+
+.knowledgeTitle {
+    background: #195454;
+    height: 50px;
+    width: 98%;
+    margin: 9px auto;
+    box-shadow: 1px 2px 3px 1px #e3dede;
+}
+
+.knowledgeTitle div {
+    background: #FFFFFF;
+    height: 50px;
+    width: 98%;
+    float: right;
+    line-height: 50px;
+    padding-left: 1%;
+    font-weight: 600;
+}
+
+.xuanxiaingka {
+    width: 98%;
+    margin: 0 auto;
+    height: 50px;
+}
+
+.xuanxiaingka div {
+    width: 6%;
+    text-align: center;
+    height: 22px;
+    border-radius: 18px;
+    border: 1px solid #DDD;
+    font-size: 15px;
+    line-height: 22px;
+    float: left;
+    margin-right: 3%;
+}
+
+.xuanxiaingka div img {
+    float: right;
+    margin-right: 6px;
+    margin-top: 3px;
+}
+
+.pinjunAll {
+    width: 98%;
+    margin: 0 auto;
+    height: 100px;
+}
+
+.pinjun {
+    width: 48%;
+    float: left;
+    margin-left: 1%;
+    height: 100%;
+    box-shadow: 1px 2px 3px 2px #ddd;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    background: #FFFFFF;
+    -webkit-box-align: center;
+}
+
+.pinjun div:nth-of-type(1) {
+    width: 64px;
+    padding: 5px;
+    background: #175AA0;
+    margin-left: 2%;
+}
+
+
+.pinjun div:nth-of-type(2) span:nth-of-type(1) {
+    margin-left: 30%;
+    font-weight: 700;
+    /*height: 1%;*/
+    width: 200px;
+    display: block;
+}
+
+.pinjun div:nth-of-type(2) span:nth-of-type(2) {
+    margin-left: 30%;
+    font-weight: 700;
+    height: 1%;
+    width: 100px;
+    display: block;
+    color: #175AA0;
+    font-size: 26px;
+}
+
+.pinjun2 {
+    width: 48%;
+    float: left;
+    margin-left: 1%;
+    height: 100%;
+    box-shadow: 1px 2px 3px 2px #ddd;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    background: #FFFFFF;
+    -webkit-box-align: center;
+}
+
+.pinjun2 div:nth-of-type(1) {
+    width: 64px;
+    padding: 5px;
+    background: #EE9805;
+    margin-left: 2%;
+}
+
+.pinjun2 div:nth-of-type(2) span:nth-of-type(1) {
+    margin-left: 30%;
+    font-weight: 700;
+    height: 1%;
+    width: 150px;
+    display: block;
+}
+
+.pinjun2 div:nth-of-type(2) span:nth-of-type(2) {
+    margin-left: 30%;
+    font-weight: 700;
+    height: 1%;
+    width: 100px;
+    display: block;
+    color: #EE9805;
+    font-size: 26px;
+}
+
+.hongbang table {
+    width: 99%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hongbang th {
+    height: 32px;
+        text-align: center;
+    font-weight: 400;
+}
+
+.hongbang td {
+    height: 32px;
+    color: #6c6868;text-align: center;
+}
+
+.hongbang tr {
+    /*color: #858383;*/
+    font-weight: 100;
+    font-size: 13px;
+}
+
+.bigTable {
+    width: 99%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.bigTable th {
+    height: 32px;
+        text-align: left;
+    font-weight: 400;
+}
+
+.bigTable td {
+    height: 32px;
+    color: #6c6868;text-align: left;
+}
+
+.bigTable tr {
+    /*color: #858383;*/
+    font-weight: 100;
+    font-size: 13px;
+}
+.hongbang {
+    width: 41%;
+    height: 229px;
+    margin: 0 auto;
+    margin-left: 2%;
+    box-shadow: 1px 2px 3px 1px #DDD;
+    margin-top: 3px;
+    float: left;
+}
+
+.checkAll{
+    float: right;
+    border: 1px solid #DDD;
+    border-radius: 15px;
+    height: 20px;
+    font-size: 11px;
+    font-weight: 100;
+    line-height: 22px;
+    width: 70px;
+    text-align: center;
+    margin-top: 5px;
+    margin-right: 50px;
+    cursor: pointer;
+}
+.checkDetail{
+    /*border: 1px solid;*/
+    border-radius: 10px;
+    width: 28%;
+    height: 20px;
+    line-height: 21px;
+    text-align: center;
+    color: white;
+    background: #076a07;
+    font-size: 11px;
+    margin: 0 auto;
+}
+
+.chiopAll{
+    /*border: 1px solid;*/
+    float: right;
+    width: 80%;
+    height: 45%;
+    margin-right: 7%;
+}
+
+.chiop{
+    width: 5%;
+    height: 78%;
+    float: left;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+.greyChiop{
+    background: #766b6b;
+}
+
+#main3{
+width: 95%;height:260px;background: #FFFFFF;margin: 0 auto;margin-left: 2%;box-shadow: 1px 2px 3px 1px #DDD;margin-top: 3px;float: left
+}
+
+
+.hongbangtitle {
+    font-weight: 600;
+    width: 25%;
+    background: #FFFFFF;
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    float: left;
+    padding-left: 1%;
+    margin-top: 35px;
+    margin-left: 2%;
+    box-shadow: 0px 0px 4px 0px #DDD;
+}
+
+.hongbangtitle img{
+    height: 15px;
+    margin-top: 1.5%;
+    float: right;
+}
+
+.hongbangtitle span{
+        float: right;
+    font-weight: 100;
+    font-size: 12px;
+    margin-left: 1.5%;
+        margin-right: 2%;
+
+}
+
+ul {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.paginate {
+    width: 23%;
+    overflow: hidden;
+    float: right;
+    height: 40px;
+    margin-top: -32px;
+}
+
+#pagination-flickr li {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+    list-style: none;
+}
+
+#pagination-flickr a {
+    border: solid 1px #DDDDDD;
+    margin-right: 2px;
+}
+
+#pagination-flickr .previous-off,
+#pagination-flickr .next-off {
+    color: #666666;
+    display: block;
+    float: left;
+    font-weight: bold;
+    padding: 3px 4px;
+}
+
+#pagination-flickr .next a,
+#pagination-flickr .previous a {
+    font-weight: bold;
+    border: solid 1px #FFFFFF;
+}
+
+#pagination-flickr .active {
+    color: #ff0084;
+    font-weight: bold;
+    display: block;
+    float: left;
+    padding: 4px 6px;
+}
+
+#pagination-flickr a:link,
+#pagination-flickr a:visited {
+    color: #0063e3;
+    display: block;
+    float: left;
+    padding: 3px 6px;
+    text-decoration: none;
+}
+
+#pagination-flickr a:hover {
+    border: solid 1px #666666;
+}
+
+.bottom{
+    color: #b9b2b2;
+    text-align: center;
+    /*margin-top: 30px;*/
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+    align-items: flex-end;
+    background: url(/static/img/bg_dark.gif);
+    height: 27px;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+}
+
+
+
+.courseTitle {
+    width: 100%;
+    font-size: 17px;
+    /* font-weight: 600; */
+    color: #2e2c2c;
+    float: left;
+    padding-right: 150px;
+    height: 60px;
+    text-align: right;
+    background: #DAE5F7;
+    line-height: 60px;
+}
+
+.courseTitle a {
+    text-decoration: none;
+}
+
+.courseTitle a:nth-of-type(1) span {
+    font-size: 13px;
+    color: #958B99;
+    cursor: pointer;
+}
+
+.courseTitle a:nth-of-type(2) span {
+    font-size: 13px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.courseTitle a:nth-of-type(3) span {
+    font-size: 13px;
+    color: #000000;
+    cursor: pointer;
+}
+.courseTitle a:nth-of-type(4) span {
+    font-size: 13px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.share{
+    float: right;
+    width: 15%;
+    font-size: 14px;
+}
+
+.share img{
+    height: 31px;
+}
+
+.share:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/teacher/courseManage.css' %}" rel="stylesheet">
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div style='background: url("/static/img/bg_dark.gif");    height: 97%;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:course' %}">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'teacher:courseManage' %}">课程管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:liveStreaming' %}">课程直播</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    <div class="courseManage">
+        <form action="{% url 'teacher:uploadMp4' %}" method="post"  enctype="multipart/form-data" style="    width: 80%; margin: 0 auto;border: 1px solid #515050;border-radius: 20px;">
+            <h3 style="text-align: center;color: #e6ddd6;">课程上传</h3>
+            <input type="text" name="username" value="{{ username }}" hidden>
+            <div style="display: flex;justify-content: center;margin: 29px 0;">
+                <input type="text" name="name" placeholder="课程名" required>
+            </div>
+            <div style="display: flex;justify-content: center;margin: 29px 0;">
+                <textarea name="produce" id="" cols="30" rows="10" placeholder="课程简介" required></textarea>
+            </div>
+            <div style="display: flex;justify-content: center;margin: 29px 0;align-items: center;color: white;">
+                课程视频<input type="file" name="Mp4"  accept="video/*" required>
+            </div>
+            <div style="display: flex;justify-content: center;margin: 29px 0;align-items: center;color: white;">
+                课程测试<input type="file" name="test"  accept=".docx" required>
+            </div>
+            <div style="display: flex;justify-content: center;margin: 29px 0;align-items: center;color: white;">
+                视频封面<input type="file" name="interface"  accept="image/*" required>
+            </div>
+            <div style="display: flex;justify-content: center;margin: 29px 0;">
+                <input type="submit" value="上传" class="btn" style="float: none">
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="bottom">
+    赛科学习平台
+</div>
+
+
+</body>
+</html>

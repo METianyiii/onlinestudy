@@ -1,0 +1,21 @@
+rtmp {
+    #rtmp直播配置
+    server {
+        listen 1935;
+        chunk_size 4000;
+        application live {
+             live on;
+             hls on;
+             hls_path /temp;
+             hls_fragment 5s;
+        }
+    }
+    #rtmp点播配置
+    server {
+        listen 1935;
+        chunk_size 4000;
+        application  vod {
+                play /usr/local/nginx/html/multimedia/rtmp/vod;  #点播媒体文件存放目录
+        }
+    }
+}

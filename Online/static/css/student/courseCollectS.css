@@ -1,0 +1,170 @@
+@font-face {
+    font-family: 'iconfont';  /* Project id 1922690 */
+    src: url('//at.alicdn.com/t/font_1922690_ljvh1i0lna.woff2?t=1628211310795') format('woff2'),
+    url('//at.alicdn.com/t/font_1922690_ljvh1i0lna.woff?t=1628211310795') format('woff'),
+    url('//at.alicdn.com/t/font_1922690_ljvh1i0lna.ttf?t=1628211310795') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 25px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    color: #d9d7d7;
+}
+
+.videoInterface:hover .iconfont, .iconfont:hover {
+    color: #F97307;
+}
+
+
+.my {
+    color: #909EAE;
+}
+
+.my:hover {
+    color: white;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.myactive {
+    color: #fff;
+    /* background-color: #050e18; */
+    border-bottom: 2px solid #F97307;
+    border-radius: 0;
+}
+
+.myactive:hover {
+    color: white;
+}
+
+
+.bottom {
+    color: #b9b2b2;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+    align-items: flex-end;
+    background: url(/static/img/bg_dark.gif);
+    height: 67px;
+    width: 100%;
+}
+
+/*################################################################################################*/
+.course {
+    width: 53%;
+    margin: 20px auto;
+    height: 90%;
+}
+
+.xuanxianglan{
+    border: 1px solid #838080;
+    width: 150px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 8px;
+    color: white;
+    height: 25px;
+    font-size: 14px;
+    border-radius: 3px;
+
+}
+
+.xuanActive{
+    background: #F97307;
+    box-shadow: 0px 1px 0px 1px #ee954c;
+    border: 0;
+}
+
+.xuanxianglan:hover{
+    background: #F97307;
+    box-shadow: 0px 1px 0px 1px #ee954c;
+    border: 0;
+}
+
+.perLeft{
+    width: 16%;
+    float: left;
+}
+.perLeft a{
+    text-decoration: none;
+}
+
+.perRight{
+    width: 80%;
+    float: right;
+    height: 100%;
+    border: 1px solid #645f5f;
+    border-radius: 10px;
+}
+
+.courseVideo{
+    /* border: 1px solid #ddd; */
+    width: 95%;
+    float: left;
+    height: 106px;
+    margin-top: 41px;
+    margin-left: 3%;
+}
+
+.videoInterface{
+    width: 200px;
+    height: 100px;
+    float: left;
+    border-radius: 5px;
+    background: #4B5968;
+    cursor: pointer;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.produce{
+    width: 48%;
+    float: left;
+    height: 100%;
+    margin-left: 2%;
+    word-wrap: break-word;
+    word-break: normal;
+    font-size: 13px;
+        color: white;
+}
+
+.produce p{
+    color: white;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.collectBtn{
+    background: #F97307;
+    color: white;
+    font-size: 12px;
+    width: 67px;
+    text-align: center;
+    height: 25px;
+    border-radius: 5px;
+    line-height: 25px;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 2px 1px 1px #d16106;
+    margin-top: 20px;
+    float: left;
+    margin-left: 20px;
+}
+
+.nothing{
+        color: white;
+    margin-top: 50px;
+    text-align: center;
+}

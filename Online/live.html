@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link href="https://vjs.zencdn.net/7.0.3/video-js.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://vjs.zencdn.net/5.5.3/video-js.css"/>
+<script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
+<script src="http://vjs.zencdn.net/5.5.3/video.js"></script>
+
+    <link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+
+<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.1/flv.js"></script>
+
+
+<meta charset="UTF-8">
+<title>demo</title>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<!--
+<video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="720" height="540" data-setup='{}'>
+<source id="source" type="application/x-mpegURL"
+src="rtmp://192.168.43.207:1935/live/test" >
+</video>-->
+<!--
+<video id="myVideo" src="http://192.168.43.207:8080/myapp?port=1935&app=myapp&stream=test" class="video-js" controls autoplay="true" preload="auto" data-setup=""></video>
+-->
+<video id="videoElement"></video>
+<script src="https://vjs.zencdn.net/7.0.3/video.js"></script>
+<script>
+if (flvjs.isSupported()) {
+    var videoElement = document.getElementById('videoElement');
+    var flvPlayer = flvjs.createPlayer({
+        type: 'flv',
+        isLive: true,
+        url: 'http://192.168.43.207:8080/myapp?port=1935&app=myapp&stream=test'
+    });
+    flvPlayer.attachMediaElement(videoElement);
+    flvPlayer.load();
+    flvPlayer.play();
+}
+
+</script>
+</body>
+</html>

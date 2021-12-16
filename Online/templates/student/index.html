@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/index.css' %}" rel="stylesheet">
+
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div style='background: url("/static/img/bg_dark.gif");    height: 97%;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link myactive" href="{% url 'student:index' %}">首页</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:course' %}">课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:liveList' %}">直播</a>
+            </li>
+        {#        <li class="nav-item">#}
+{#            <a class="nav-link my" href="{% url 'student:assignments' %}">随堂作业</a>#}
+{#        </li>#}
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    <div class="computer"></div>
+
+</div>
+<div class="bottom">
+        © Copyright 2021 www.example.com   |   All rights reserved.More Templates 学习 - Collect from 学习
+    </div>
+
+
+</body>
+</html>

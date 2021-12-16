@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/course.css' %}" rel="stylesheet">
+    <script type="text/javascript">
+        function autoHeight() {
+            var h = $(window).height();
+            var bottom = $(".bottom").height();
+            var auto = $("#auto").height();
+            {#console.log(h)#}
+            if ((bottom + auto) < h) {
+                $("#auto").css({'height': h - bottom, 'overflow': 'none'});
+            } else {
+                return false;
+            }
+        }
+
+        function getTime() {
+            var myDate = new Date;
+            var year = myDate.getFullYear(); //获取当前年
+            var mon = myDate.getMonth() + 1; //获取当前月
+            var date = myDate.getDate(); //获取当前日
+            var h = myDate.getHours();//获取当前小时数(0-23)
+            var m = myDate.getMinutes();//获取当前分钟数(0-59)
+            var s = myDate.getSeconds();//获取当前秒
+            {#alert(year, mon, date, weeks[week])#}
+            if (mon < 10) {
+                mon = "0" + mon
+            }
+            if (date < 10) {
+                date = "0" + date
+            }
+            if (h < 10) {
+                h = "0" + h
+            }
+            if (m < 10) {
+                m = "0" + m
+            }
+            if (s < 10) {
+                s = "0" + s
+            }
+
+            return year + "-" + mon + "-" + date + " " + h + ":" + m + ":" + s
+        }
+
+        $(function () {
+            autoHeight();
+            $(window).resize(autoHeight);
+
+            {#提交评论#}
+            $(".submitBtn").click(function () {
+                let videoID = $(".writeComment input").eq(0).val();
+                let videoComment = $(".writeComment textarea").eq(0).val().trim();
+                if (videoComment.length > 0) {
+                    {#console.log(videoID, videoComment);#}
+                    $.post("/student/submitVideo/",
+                        {
+                            videoID: videoID,
+                            videoComment: videoComment
+                        },
+                        function (data, status) {
+                            if (data.success == "success") {
+                                $(".writeComment textarea").eq(0).val('')
+                                $('<div class="comment">\n' +
+                                    '                    <div class="commentAvatar"></div>\n' +
+                                    '                    <div class="commentName">\n' +
+                                    '                        <div>' + data.name + '</div>\n' +
+                                    '                        <div>' + getTime() + '</div>\n' +
+                                    '                    </div>\n' +
+                                    '                    <div class="commetnContent">' + videoComment + '</div>\n' +
+                                    '                </div>').insertBefore('.comment:first');
+
+
+                            }
+                        });
+                }
+
+            });
+
+            var lookAddFlag = true;
+            $(".ckin-play").click(function () {
+                if (lookAddFlag) {
+                    let lookNum = $(".look").eq(0);
+                    lookNum.text("观看：" + (1 + parseInt(lookNum.text().split("：")[1])));
+                    lookAddFlag = false;
+                    let videoID = $(".writeComment input").eq(0).val();
+                    $.get("/student/VideoLookNum/",
+                        {
+                            videoID: videoID,
+                        },
+                        function (data, status) {
+                            if (data === "success") {
+
+                            }
+                        });
+                }
+
+            });
+
+            var collectAddFlag = $(".collectBtn:first").text();
+
+            $(".collectBtn:first").click(function () {
+                if (collectAddFlag == "收藏") {
+                    let collectNum = $(".look").eq(1);
+                    collectNum.text("收藏：" + (1 + parseInt(collectNum.text().split("：")[1])));
+                    let videoID = $(".writeComment input").eq(0).val();
+                    $.get("/student/VideoCollectNum/",
+                        {
+                            videoID: videoID,
+                        },
+                        function (data, status) {
+                            if (data === "success") {
+                                $(".collectBtn:first").text("取消收藏")
+                            }
+                        });
+                } else {
+                    let collectNum = $(".look").eq(1);
+                    collectNum.text("收藏：" + (parseInt(collectNum.text().split("：")[1]) - 1));
+                    collectAddFlag = true;
+                    let videoID = $(".writeComment input").eq(0).val();
+                    $.get("/student/VideoCollectNumCancel/",
+                        {
+                            videoID: videoID,
+                        },
+                        function (data, status) {
+                            if (data === "success") {
+                                $(".collectBtn:first").text("收藏")
+                            }
+                        });
+                }
+
+            });
+
+            $(".sreachImg").click(function () {
+                if ($(".searchKey").val().trim().length > 0) {
+                    $("#searchID").click()
+                }
+            });
+        });
+
+
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div id="auto" style='background: url("/static/img/bg_dark.gif");   overflow:hidden;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my " href="{% url 'student:index' %}">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'student:course' %}">课程</a>
+        </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:liveList' %}">直播</a>
+            </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    <div class="course">
+        <div class="courseTitle"></div>
+
+        {% if videoList %}
+            <div class="courseSearch">
+                <form action="" method="get">
+                    <input class="searchKey" name="sreachKey" type="text" placeholder="课程名"
+                           style="border: 0; color: black"><img class="sreachImg" src="{% static 'img/search.png' %}"
+                                                                alt="">
+                    <input id="searchID" type="submit" hidden>
+                </form>
+            </div>
+            {% for video in videoList %}
+                <div class="courseVideo">
+                    <a href="{% url 'student:videoDetail' %}?videoID={{ video.videoID }}">
+                        <div class="videoInterface"
+                             style="background: url('../../static/video/img/{{ video.interfacePath }}')">
+                            <i class="iconfont">&#xe659;</i>
+                        </div>
+                    </a>
+                    <div class="produce">
+                        <h4>{{ video.name }}</h4>
+                        <p>{{ video.produce }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+
+            <div class="nothing">还没有课程哦，耐心等待</div>
+        {% endif %}
+
+        {% if paginator.num_pages > 1 %}
+            <div class="paginate">
+                <ul id="pagination-flickr">
+                    {% if videoList.has_previous %}
+                        <li class=""><a
+                                href="?page={{ videoList.previous_page_number }}">«Previous</a></li>
+                    {% endif %}
+                    {% for page_fo in paginator.page_range %}
+                        {% ifequal page page_fo %}
+                            <li class=""><a class="active" href="?page={{ page_fo }}">{{ page_fo }}</a></li>
+                        {% else %}
+                            <li class=""><a href="?page={{ page_fo }}">{{ page_fo }}</a></li>
+                        {% endifequal %}
+                    {% endfor %}
+
+
+                    {% if videoList.has_next %}
+                        <li class="next"><a href="?page={{ videoList.next_page_number }}">Next »</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+<div class="bottom">
+    赛科学习平台
+</div>
+
+
+</body>
+</html>

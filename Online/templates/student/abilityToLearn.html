@@ -1,0 +1,695 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>index</title>
+    <link rel="stylesheet" href="{% static 'css/student/sportsKnowledge.css' %}">
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div class="all" style='background: url("/static/img/bg_dark.gif");'>
+    <div class="right">
+        <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+            <li class="nav-item">
+                <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:index' %}">首页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:course' %}">课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:liveList' %}">直播</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:community' %}">社区</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link  myactive" href="{% url 'student:personal' %}">个人中心</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+            </li>
+        </ul>
+        <div class="picbody">
+            <div class="knowledgeTitle">
+                <div>学习信用评估 <div class="share" style="float: right;width: 15%;font-size: 14px;"><img style="height: 31px;" src="{% static 'img/分享.png' %}" alt="">分享到微博</div></div>
+            </div>
+
+            <div class="pinjunAll">
+                <div class="pinjun">
+                    <div>
+                        <img style="    width: 54px;" src="{% static 'img/平均电量.png' %}" alt="">
+                    </div>
+                    <div>
+                        <span>综合学习信用系数</span>
+                        <br>
+                        <span id="comprehensive"></span>
+                    </div>
+                </div>
+                <div class="pinjun2">
+                    <div>
+                        <img style="    width: 54px;" src="{% static 'img/完成.png' %}" alt="">
+                    </div>
+                    <div>
+                        <span>我完成课程数量</span>
+                        <br>
+                        <span>{{ courseComplete }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hongbangtitle">男女生人数比例</div>
+            <div class="hongbangtitle">我完成的课程的成绩</div>
+            <div class="hongbangtitle" style="    width: 41%;">最近点击量趋势</div>
+            <div id="mainc2"
+                 style="width: 25%;height:229px;float: left;overflow: hidden;margin-left: 2%;margin-top: 3px;background: #FFFFFF;">
+                <div id="bingHuan" style="width: 100%; height: 65%;"></div>
+                <div id="bingHuan2" style="width: 92%; height: 35%;margin: 0 auto"></div>
+            </div>
+            <div id="course"
+                 style="width: 25%;height:229px;float: left;overflow: hidden;margin-left: 2%;margin-top: 3px;background: #FFFFFF;    display: -webkit-box;-webkit-box-orient: horizontal;-webkit-box-align: center;"></div>
+            <div class="hongbang" id="click" style="background: #FFFFFF;">
+            </div>
+            <div class="hongbangtitle" style="width: 52%;">综合数据情况</div>
+            <div class="hongbangtitle" style="width: 41%;">平均分红榜</div>
+            <div id="main2"
+                 style="width: 52%;height:229px;background: #FFFFFF;margin: 0 auto;margin-left: 2%;box-shadow: 1px 2px 3px 1px #DDD;margin-top: 3px;float: left"></div>
+            <div class="hongbang" style="background: #FFFFFF;">
+                <table cellspacing=0>
+
+                    {% if avgList %}
+                        <tr>
+                            <th>名次</th>
+                            <th>姓名</th>
+                            <th>平均分</th>
+                        </tr>
+                        {% for item in avgList %}
+                            {% if forloop.counter|divisibleby:2 == 0 and forloop.counter < 6 %}
+                                <tr style="    background: #fff8fa;">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.0 }}</td>
+                                    <td>{{ item.1 }}</td>
+                                </tr>
+                            {% elif forloop.counter < 6 %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.0 }}</td>
+                                    <td>{{ item.1 }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div style="color: #d20d0d;font-size: 14px;text-align: center;margin-top: 15%;">暂无学习数据</div>
+                    {% endif %}
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="bottom">赛科学习平台</div>
+
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".hello").eq(1).click(function () {
+            let n_h = $(".xiala")
+            if (n_h.css('display') == "none") {
+                n_h.show()
+            } else {
+                n_h.hide()
+            }
+        });
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        myChart2.showLoading();
+
+        var bingHuan = echarts.init(document.getElementById('bingHuan'));
+        var bingHuan2 = echarts.init(document.getElementById('bingHuan2'));
+        var course = echarts.init(document.getElementById('course'));
+        var click = echarts.init(document.getElementById('click'));
+        bingHuan.showLoading();
+        bingHuan2.showLoading();
+        course.showLoading();
+        click.showLoading();
+
+        $.ajax({
+            url: "/student/getGenderCount",
+            success: function (data) {
+                bingHuan.hideLoading();
+                bingHuan2.hideLoading();
+                let option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function (params) {
+                            return params.name
+                        },
+                    },
+                    legend: {
+                        show: false
+                    },
+                    series: [
+                        {
+                            name: '',
+                            type: 'pie',
+                            selectedMode: 'single',
+                            radius: [0, '30%'],
+                            {#startAngle:270,#}
+                            center: ['50%', '50%'],
+                            label: {
+                                {#formatter: function (params) {#}
+                                {#    // do some thing#}
+                                {#    return params.name#}
+                                {# },#}
+                                backgroundColor: '#F6F8FC',
+                                borderColor: '#borderWidth',
+                                borderWidth: 0,
+                                borderRadius: 0,
+
+                            },
+                            labelLine: {
+                                length: 40,
+                            },
+                            data: [
+                                {value: data.male, name: '男生:' + data.percent1},
+                                {value: data.female, name: '女生:' + data.percent2},
+                            ]
+                        },
+                        {
+                            name: '总人数',
+                            type: 'pie',
+                            radius: ['45%', '60%'],
+                            hoverAnimation: false,
+                            labelLine: {
+                                show: false
+                            },
+                            data: [
+                                {value: data.male + data.female, name: ''},
+                            ]
+                        }
+                    ]
+                };
+                bingHuan.setOption(option);
+
+                let option2 = {
+                    dataset: {
+                        source: [
+                            ['score', 'amount', 'product'],
+                            [57.1, data.male, '男生'],
+                            [74.4, data.female, '女生'],
+                        ]
+                    },
+                    xAxis: {
+                        name: '',
+                        axisTick: {show: false}, // 隐藏刻度
+                        axisLine: {show: false},
+                        splitArea: {show: false},
+                        splitLine: {show: false},
+                        offset: 75
+
+                    },
+                    yAxis: {
+                        type: 'category',
+                        "axisLine": {       //y轴
+                            "show": false
+
+                        },
+                        "axisTick": {       //y轴刻度线
+                            "show": false
+                        },
+                        "splitLine": {     //网格线
+                            "show": false
+                        }
+                    },
+                    visualMap: {
+                        show: false,
+                        left: 'center',
+                        min: 10,
+                        max: 100,
+                        text: ['High Score', 'Low Score'],
+                        // Map the score column to color
+                        dimension: 0,
+                        inRange: {
+                            color: ['#08175F', '#2F4554', 'red']
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'bar',
+                            encode: {
+                                // Map the "amount" column to X axis.
+                                x: 'amount',
+                                // Map the "product" column to Y axis
+                                y: 'product'
+                            }
+                        }
+                    ]
+                };
+                bingHuan2.setOption(option2);
+            }
+        });
+        $.ajax({
+            url: "/student/getCourseScore",
+            success: function (data) {
+                course.hideLoading();
+                if (data.title.length == 0) {
+                    $("#course").html(
+                        '<div style="color: #d20d0d;font-size: 14px;text-align: center;width: 100%;">暂无学习数据</div>'
+                    )
+                } else {
+
+                    let option = {
+                        {#backgroundColor: "#38445E",#}
+                        grid: {
+                            left: '2%',
+                            top: '10%',
+                            bottom: '30%',
+                            right: '8%'
+                        },
+                        xAxis: {
+                            data: data.title,
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: 'rgba(255, 129, 109, 0.1)',
+                                    width: 1 //这里是为了突出显示加上的
+                                }
+                            },
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#999',
+                                    fontSize: 8
+                                },
+                                rotate: 45,
+                            }
+                        },
+                        yAxis: [{
+                            axisTick: {show: false}, // 隐藏刻度
+                            axisLine: {show: false},
+                            max: 110,
+                            splitNumber: 2,
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#999'
+                                }
+                            },
+                            splitArea: {show: false},
+                            splitLine: {
+                                show: false,
+                                lineStyle: {
+                                    color: 'rgba(255, 129, 109, 0.1)',
+                                    width: 0.5,
+                                    type: 'dashed'
+                                }
+                            }
+                        }
+                        ],
+                        series: [{
+                            name: 'hill',
+                            type: 'pictorialBar',
+                            barCategoryGap: '0%',
+                            symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
+                            label: {
+                                show: true,
+                                position: 'top',
+                                distance: 15,
+                                color: '#DB5E6A',
+                                fontWeight: 'bolder',
+                                fontSize: 10,
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: {
+                                        type: 'linear',
+                                        x: 0,
+                                        y: 0,
+                                        x2: 0,
+                                        y2: 1,
+                                        colorStops: [{
+                                            offset: 0,
+                                            color: 'rgba(232, 94, 106, .8)' //  0%  处的颜色
+                                        },
+                                            {
+                                                offset: 1,
+                                                color: 'rgba(232, 94, 106, .1)' //  100%  处的颜色
+                                            }
+                                        ],
+                                        global: false //  缺省为  false
+                                    }
+                                },
+                                emphasis: {
+                                    opacity: 1
+                                }
+                            },
+                            data: data.score,
+                            z: 10
+                        }]
+                    };
+                    course.setOption(option);
+                }
+            }
+        });
+        $.ajax({
+            url: "/student/getClick",
+            success: function (data) {
+                click.hideLoading();
+                let option = {
+                    // backgroundColor: '#020933',
+
+                    title: {
+                        text: '数据对比图',
+                        textStyle: {
+                            align: 'top',
+                            color: '#fff',
+                            fontSize: 20,
+                        },
+                        top: '5%',
+                        left: 'center',
+                    },
+                    legend: {
+                        data: ['学员一', '学员二'],
+                        textStyle: {
+                            // color: '#fff',
+                            align: 'right',
+                        },
+                        x: 'right'
+                    },
+
+                    grid: {
+                        top: '28%',
+                        left: '0%',
+                        right: '5%',
+                        bottom: '20%',
+                        // containLabel: true
+                    },
+                    xAxis: [{
+                        axisTick: {show: false}, // 隐藏刻度
+                        axisLine: {show: false},
+                        splitArea: {show: false},
+                        type: 'category',
+                        axisLabel: {
+                            rotate: 45,
+                        },
+                        splitLine: {},
+                        data: data.label,
+                    }],
+                    yAxis: [{
+                        axisTick: {show: false}, // 隐藏刻度
+                        axisLine: {show: false},
+                        splitArea: {show: false},
+                        type: 'value',
+                        splitNumber: 4,
+                        splitLine: {
+                            show: false,
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                // color: '#F1F1F1',
+                                fontSize: 16
+
+                            },
+                        },
+                    }],
+                    series: [
+                        {
+                            name: '点击量',
+                            type: 'line',
+                            // smooth: true, //是否平滑
+                            showAllSymbol: true,
+                            symbol: 'circle',
+                            symbolSize: 12,
+                            lineStyle: {
+                                normal: {
+                                    color: "red",
+                                },
+                            },
+                            label: {
+                                show: false,
+                                position: 'top',
+                                textStyle: {
+                                    color: '#7A7A7A',
+                                }
+                            },
+                            itemStyle: {
+
+                                normal: {
+                                    label: {
+                                        show: true
+                                    },
+                                    color: "#7A7A7A",
+                                    borderColor: "#fff",
+                                    borderWidth: 3,
+                                    shadowColor: 'rgba(0, 0, 0, .3)',
+                                    shadowBlur: 0,
+                                    shadowOffsetY: 2,
+                                    shadowOffsetX: 2,
+                                },
+                            },
+                            tooltip: {
+                                show: false
+                            },
+                            data: data.click,
+                        },
+                    ]
+
+                };
+
+                click.setOption(option);
+            }
+        });
+
+        $.ajax({
+            url: "/student/getMain2",
+            context: document.body,
+            success: function (data) {
+
+                myChart2.hideLoading();
+                var data1 = [data.participation, data.enthusiasm, data.influence, data.regularity, data.SuccessRate];
+                let comprehensive = 0.32 * data1[0] + 0.18 * data1[1] + 0.08 * data1[2] + 0.26 * data1[3] + 0.16 * data1[4]
+                $("#comprehensive").text(comprehensive.toFixed(2));
+                var data2 = [100, 100, 100, 100, 100];
+                var path = 'path://M-258.2,313c-1.63-.74-3.33-1.48-5.1-2.2q-2.93-1.2-5.7-2.2c1.84-.85,3.75-1.78,5.7-2.8,1.78-.93,3.48-1.87,5.1-2.8,3.73,1.9,7.07,3.7,10.8,5.6C-251.13,310-254.47,311.57-258.2,313Z';
+                var myColor = ['#fbd601', '#a7e238', '#75d57e', '#5eccc3', '#43a2e2']; //, '#43a2e2'
+                let option = {
+                    grid: {
+                        left: 100,
+                        bottom: 50
+                    },
+                    xAxis: {
+                        axisLabel: {
+                            interval: 0,
+                            textStyle: {
+                                color: function (param, index) {
+                                    return myColor[index]
+                                },
+                                fontSize: 10,
+                                fontFamily: 'FZYaoti',
+                                fontWeight: 100,
+                            },
+                            margin: 20,
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#6e6e6e',
+                                width: 1,
+                            }
+                        },
+                        splitArea: {
+                            show: false,
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        data: ['参与度', '积极性', '影响力', '规律性', '达标率']
+                    },
+                    yAxis: {
+                        axisLine: {
+                            lineStyle: {
+                                color: '#6e6e6e',
+                                width: 1,
+                            }
+                        },
+                        axisLabel: {
+                            interval: 0,
+                            formatter: '{value}',
+                            textStyle: {
+                                color: '#42321c',
+                                fontFamily: 'FZYaoti',
+                            },
+                            margin: 20,
+                        },
+                        splitLine: {
+                            show: false,
+                        },
+                        axisTick: {
+                            lineStyle: {
+                                color: '#6e6e6e',
+                                width: 1,
+                                height: 5,
+                            }
+                        },
+                    },
+                    series: [
+                        {
+                            "type": "pictorialBar",
+                            symbol: path,
+                            "symbolSize": [40, 20],
+                            "symbolOffset": [3, -11],
+                            "z": 20,
+                            "symbolPosition": "end",
+                            itemStyle: {
+                                color: '#f4f4f4',
+                                opacity: 1,
+                                borderColor: '#727272',
+                            },
+                            "data": data1
+                        },
+                        {
+                            name: '2019',
+                            type: 'bar',
+                            barWidth: 40,
+                            barGap: '-100%',
+                            z: 0,
+                            itemStyle: {
+                                color: 'rgba(0,0,0,0)',
+                                borderColor: '#727272',
+                                opacity: 1,
+                            },
+                            data: data1
+                        },
+                        {
+                            "type": "pictorialBar",
+                            symbol: 'rect',
+                            "symbolSize": [1, '100%'],
+                            "symbolOffset": [5, 11],
+                            z: 10,
+                            "symbolPosition": "end",
+                            itemStyle: {
+                                color: '#727272',
+                            },
+                            "data": data1
+                        },
+                        {
+                            type: "pictorialBar",
+                            symbol: path,
+                            symbolSize: [60, 26],
+                            symbolOffset: [5, 12],
+                            z: 1,
+                            itemStyle: {
+                                color: '#f4f4f4',
+                                opacity: 1,
+                                borderColor: '#727272',
+                            },
+                            "data": [1, 1, 1, 1, 1]
+                        },
+                        {
+                            type: "pictorialBar",
+                            symbol: path,
+                            symbolSize: [55, 26],
+                            symbolOffset: [5, 12],
+                            z: 0,
+                            itemStyle: {
+                                color: '#f4f4f4',
+                                opacity: 1,
+                                shadowColor: 'rgba(0, 0, 0, .3)',
+                                shadowBlur: 5,
+                                shadowOffsetX: 0,
+                                shadowOffsetY: 3
+                            },
+                            "data": [1, 1, 1, 1, 1]
+                        },
+                        {
+                            "name": "",
+                            "type": "pictorialBar",
+                            symbol: path,
+                            symbolSize: [28, 20],
+                            symbolOffset: [3, -11],
+                            z: 5,
+                            itemStyle: {
+                                opacity: 1,
+                                color: function (params) {
+                                    var colorList = [
+                                        '#fbd601', '#a7e238', '#75d57e',
+                                        '#5eccc3', '#43a2e2'
+                                    ];
+                                    return colorList[params.dataIndex]
+                                },
+                            },
+                            "symbolPosition": "end",
+                            "data": data1
+                        },
+                        {
+                            type: 'bar',
+                            barWidth: 28,
+                            barGap: '-83%',
+                            stack: '广告',
+                            z: 5,
+                            label: {
+                                show: true,
+                                formatter: "{c}",
+                                position: ['6', '-35'],
+                                distance: 5,
+                                color: '#42321c',
+                                fontFamily: 'FZYaoti',
+                                fontWeight: 100,
+                                textShadowColor: 'rgba(255, 255, 255, .6)',
+                                fontSize: 16,
+                                textShadowBlur: '0',
+                                textShadowOffsetX: 1,
+                                textShadowOffsetY: 1,
+                            },
+                            itemStyle: {
+                                color: function (params) {
+                                    var colorList = [
+                                        '#fbd601', '#a7e238', '#75d57e',
+                                        '#5eccc3', '#43a2e2'
+                                    ];
+                                    return colorList[params.dataIndex]
+                                },
+                            },
+                            data: data1
+                        },
+                        {
+                            type: "pictorialBar",
+                            symbol: path,
+                            symbolSize: [40, 20],
+                            symbolOffset: [5, 8],
+                            z: 5,
+                            itemStyle: {
+                                opacity: 1,
+                                color: function (params) {
+                                    var colorList = [
+                                        '#fbd601', '#a7e238', '#75d57e',
+                                        '#5eccc3', '#43a2e2'
+                                    ];
+                                    return colorList[params.dataIndex]
+                                },
+                            },
+                            "data": [1, 1, 1, 1, 1]
+                        },
+                    ]
+                };
+                myChart2.setOption(option);
+            }
+        });
+
+
+    })
+</script>
+</body>
+</html>

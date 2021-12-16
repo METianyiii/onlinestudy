@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.11.0.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/editArticle.css' %}" rel="stylesheet">
+    <script type="text/javascript">
+        function autoHeight() {
+            var h = $(window).height();
+            var bottom = $(".bottom").height();
+            var auto = $("#auto").height();
+            {#console.log(h)#}
+            if ((auto) < h) {
+                {#$("#auto").css({'height': h - bottom, 'overflow': 'none'});#}
+            } else {
+                return false;
+            }
+        }
+
+        function getTime() {
+            var myDate = new Date;
+            var year = myDate.getFullYear(); //获取当前年
+            var mon = myDate.getMonth() + 1; //获取当前月
+            var date = myDate.getDate(); //获取当前日
+            var h = myDate.getHours();//获取当前小时数(0-23)
+            var m = myDate.getMinutes();//获取当前分钟数(0-59)
+            var s = myDate.getSeconds();//获取当前秒
+            {#alert(year, mon, date, weeks[week])#}
+            if (mon < 10) {
+                mon = "0" + mon
+            }
+            if (date < 10) {
+                date = "0" + date
+            }
+            if (h < 10) {
+                h = "0" + h
+            }
+            if (m < 10) {
+                m = "0" + m
+            }
+            if (s < 10) {
+                s = "0" + s
+            }
+
+            return year + "-" + mon + "-" + date + " " + h + ":" + m + ":" + s
+        }
+
+        $(function () {
+            autoHeight();
+            $(window).resize(autoHeight);
+
+            {#提交评论#}
+            $(".submitBtn").click(function () {
+                let articleID = $(".writeComment input").eq(0).val();
+                let articleComment = $(".writeComment textarea").eq(0).val().trim();
+                if (articleComment.length > 0) {
+                    {#console.log(videoID, videoComment);#}
+                    $.post("/student/articleCommentSubmit/",
+                        {
+                            articleID: articleID,
+                            articleComment: articleComment
+                        },
+                        function (data, status) {
+                            if (data.success == "success") {
+                                $(".writeComment textarea").eq(0).val('')
+                                $('<div class="comment">\n' +
+                                    '                    <div class="commentAvatar"></div>\n' +
+                                    '                    <div class="commentName">\n' +
+                                    '                        <div>' + data.name + '</div>\n' +
+                                    '                        <div>' + getTime() + '</div>\n' +
+                                    '                    </div>\n' +
+                                    '                    <div class="commetnContent">' + videoComment + '</div>\n' +
+                                    '                </div>').insertBefore('.comment:first');
+
+
+                            }
+                        });
+                }
+
+            });
+
+        });
+
+
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div id="auto" style='background: url("/static/img/bg_dark.gif");    height: 100%;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my " href="{% url 'student:index' %}">首页</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:course' %}">课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:liveList' %}">直播</a>
+            </li>
+        {#        <li class="nav-item">#}
+{#            <a class="nav-link my" href="{% url 'student:assignments' %}">随堂作业</a>#}
+{#        </li>#}
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'student:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    <div class="courseTitle">
+        <a href="{% url 'student:community' %}"><span>社区</span></a> / <a href="#"><span>编辑文章</span></a>
+    </div>
+    <div class="course">
+        <form action="{% url 'student:editArticle' %}" method="post">
+            <div><input name="title" type="text" title="" placeholder="标题"></div>
+            <div><textarea name="content" id="" cols="30" rows="10"></textarea></div>
+            <div style="margin-top: 0;: "><input type="submit"></div>
+        </form>
+
+    </div>
+<div class="bottom">
+    赛科学习平台
+</div>
+
+</div>
+
+</body>
+</html>

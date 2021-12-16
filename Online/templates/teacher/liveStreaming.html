@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.11.0.min.js' %}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/index.css' %}" rel="stylesheet">
+
+
+    <script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+    <script src="{% static 'script/flv.js' %}"></script>
+
+
+    <script>
+        $(function () {
+            {#ffmpeg -i rtsp://admin:admin123@172.16.28.254:554/cam/realmonitor?channel=1&subtype=0 -vcodec copy -acodec copy -f flv rtmp://localhost:1985/live/test#}
+            {#ffmpeg  -re -i rtmp://192.168.43.207:1935/live/test -vcodec libx264 -vprofile baseline -acodec libmp3lame -ar 44100 -ac 1 -f flv rtmp://192.168.43.207:1935/live/test#}
+        });
+        {#ffmpeg -re -i "C:\Users\Lenovo\Desktop\ckin.mp4" -vcodec copy -f flv rtmp://192.168.43.207:1935/live/test#}
+
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div style='background: url("/static/img/bg_dark.gif");    height: 97%;' id="app">
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:course' %}">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:courseManage' %}">课程管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'teacher:liveStreaming' %}">课程直播</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'teacher:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=1">退出登录</a>
+        </li>
+    </ul>
+    <div class="live" style="background: none">
+        <hr>
+        <div class="box1">
+            <div style="    width: 61%;height: 650px;margin: 0 auto;">
+                <video src="" style="width: 80%;height: auto;border: 1px solid #ddd;margin-left: 11%;" id="video" width="600"
+                       height="400" autoplay="autoplay"></video>
+                <div>
+                    {#                    <button class="videoInfo">开始直播</button>#}
+{#                    <form action="{% url 'teacher:LiveMp4' %}" method="post" enctype="multipart/form-data"#}
+{#                          style="    width: 80%; margin: 0 auto;border: 1px solid #515050;border-radius: 20px;">#}
+                        <span style="color: white">选择一个视频播放</span>
+                        <input type="file" id="Mp4" name="Mp4" accept="video/*" required>
+{#                    </form>#}
+                </div> <!-- onclick="getMedia()"-->
+
+            </div>
+
+        </div>
+
+        {#        <div class="mainContainer">#}
+        {#            <video id="videoElement" class="centeredVideo" controls autoplay width="1024" height="576">Your browser is#}
+        {#                too old which doesn't support HTML5 video.#}
+        {#            </video>#}
+        {#        </div>#}
+
+        <script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+
+    </div>
+
+</div>
+<div class="bottom">
+    赛科学习平台
+</div>
+
+<script>
+    function getMedia() {
+        let constraints = {
+            video: {
+                width: 600,
+                height: 400
+            },
+            audio: true
+        };
+        //获得video摄像头区域
+        let video = document.getElementById("video");
+        // 这里介绍新的方法，返回一个 Promise对象
+        // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+        // then()是Promise对象里的方法
+        // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+        // 避免数据没有获取到
+        let promise = navigator.mediaDevices.getUserMedia(constraints);
+        // 成功调用
+        promise.then(function (MediaStream) {
+            /* 使用这个MediaStream */
+            video.srcObject = MediaStream;
+            {#video.play();#}
+            console.log(MediaStream); // 对象
+        })
+        // 失败调用
+        promise.catch(function (err) {
+            /* 处理error */
+            console.log(err); // 拒签
+        });
+    }
+
+    function takePhoto() {
+        //获得Canvas对象
+        let video = document.getElementById("video");
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, 600, 400);
+    }
+
+    var player = document.getElementById('video');
+    {#if (flvjs.isSupported()) {#}
+    {#    var flvPlayer = flvjs.createPlayer({#}
+    {#        type: 'flv',#}
+    {#        "isLive": true,//<====加个这个#}
+    {#        url: 'http://127.0.0.1:8080/live?port=1935&app=live&stream=test',//<==自行修改#}
+    {##}
+    {#    });#}
+    {#    flvPlayer.attachMediaElement(videoElement);#}
+    {#    flvPlayer.load(); //加载#}
+    {#    // flv_start();#}
+    {# }#}
+
+
+    function openCmd() {
+        var cmd = new ActiveXObject("WScript.Shell");
+        cmd.run('cmd.exe /c ffmpeg -f dshow -i video="@device_pnp_\\\\?\\usb#vid_5986&pid_2115&mi_00#6&12786b7d&0&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\global" -vcodec libx264 -preset:v ultrafast -tune:v zerolatency -f flv rtmp://127.0.0.1:1935/live/test1')
+    }
+
+    $("#Mp4").change(function () {
+            var fileObj = document.getElementById("Mp4").files[0];
+            var formFile = new FormData();
+            formFile.append("action", "UploadVMKImagePath");
+            formFile.append("file", fileObj); //加入文件对象
+            var data = formFile;
+            $.ajax({
+                url: "/teacher/LiveMp4/",
+                data: data,
+                type: "Post",
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (result) {
+                    console.log(result);
+                    var player = document.getElementById('video');
+                    player.src = "/static/video/live/" + result.path;
+                    player.play()
+                    player.addEventListener('ended', function () {
+                        player.src = ''
+                        $("#Mp4").val('')
+                    }, false);
+                }
+            })
+    })
+
+
+    $(".videoInfo").click(function () {
+        var fileObj = document.getElementById("FileUpload").files[0]; // js 获取文件对象
+            if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+                alert("请选择图片");
+                return;
+            }
+            var formFile = new FormData();
+            formFile.append("action", "UploadVMKImagePath");
+            formFile.append("file", fileObj); //加入文件对象
+            var data = formFile;
+            $.ajax({
+                url: "/Admin/Custom/VMKHandler",
+                data: data,
+                type: "Post",
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (result) {
+                    console.log(result);
+                    alert(result.msg);
+                    $("#video").val(result.data.file);
+                }
+            })
+        $.ajax({
+            url: "/teacher/LiveMp4",
+            success: function (data) {
+                console.log(data)
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

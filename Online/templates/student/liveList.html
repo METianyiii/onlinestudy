@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/course.css' %}" rel="stylesheet">
+
+    <script src="https://vjs.zencdn.net/7.1.0/video.js"></script>
+    <script src="{% static 'script/flv.js' %}"></script>
+    <script type="text/javascript">
+        function autoHeight() {
+            var h = $(window).height();
+            var bottom = $(".bottom").height();
+            var auto = $("#auto").height();
+            {#console.log(h)#}
+            if ((bottom + auto) < h) {
+                $("#auto").css({'height': h - bottom, 'overflow': 'none'});
+            } else {
+                return false;
+            }
+        }
+
+        $(function () {
+            autoHeight();
+            $(window).resize(autoHeight);
+
+
+        });
+
+
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div id="auto" style='background: url("/static/img/bg_dark.gif");   overflow:hidden;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my " href="{% url 'student:index' %}">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:course' %}">课程</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'student:liveList' %}">直播</a>
+        </li>
+        {#        <li class="nav-item">#}
+        {#            <a class="nav-link my" href="{% url 'student:assignments' %}">随堂作业</a>#}
+        {#        </li>#}
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    <div class="course">
+
+        {% if liveList %}
+
+            {% for live in liveList %}
+                <div style="border: 1px solid #ddd; width: 80%;margin: 0 auto;height: 60px;border-radius: 5px;    display: flex;justify-content: space-around;align-items: center;">
+                    <div style="display: inline-block;float: left;color: white;">
+                        {% if live.tea.name %}
+                            {{ live.tea.name }}正在直播
+                        {% else %}
+                            {{ live.tea.username }}正在直播
+                        {% endif %}
+                    </div>
+                    <div class="intoLive">
+                        <a href="{% url 'student:intoLive' %}?teacher={{ live.tea.username }}"
+                           style="color: white; text-decoration: none">进入直播间</a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+            <div style="color: white;font-size: 14px;text-align: center">没有正在直播的老师</div>
+        {% endif %}
+
+
+    </div>
+
+</div>
+<div class="bottom">
+    赛科学习平台
+</div>
+
+
+</body>
+</html>

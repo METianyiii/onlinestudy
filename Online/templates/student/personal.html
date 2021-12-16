@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="{% static 'plugin/jquery-1.11.0.min.js' %}"></script>
+    <link href="{% static 'plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'plugin/bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="{% static 'css/student/personal.css' %}" rel="stylesheet">
+    <script type="text/javascript">
+        function autoHeight() {
+            var h = $(window).height();
+            var bottom = $(".bottom").height();
+            var auto = $("#auto").height();
+            console.log(h)
+            if ((bottom + auto) < h) {
+                $("#auto").css({'height': h - bottom, 'overflow': 'none'});
+            } else {
+                return false;
+            }
+        }
+
+        $(function () {
+            var editAvatarFlag = false;
+            autoHeight();
+            $(window).resize(autoHeight);
+            var imgfile = ''
+            $('#file_input').change(function (e) {
+                var _URL = window.URL || window.webkitURL;
+                var file, img;
+                if ((file = this.files[0])) {
+                    img = new Image();
+                    img.onload = function () {
+                        $('.img').attr('src', this.src);
+                        {#console.log(this.width)#}
+                    };
+                    img.src = _URL.createObjectURL(file);
+                }
+                $("#editAvatar").text("确定修改");
+                editAvatarFlag = true;
+            });
+            $("#editAvatar").click(function () {
+                if (editAvatarFlag === true) {
+                    var formData = new FormData();
+                    formData.append('photo',  document.getElementById('file_input').files[0]);
+                    $.ajax({
+                        url: "/student/editAvatar/",
+                        type: "post",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            if (data === "success") {
+                                $("#editAvatar").text("修改头像");
+                                editAvatarFlag = false;
+                                alert("修改成功")
+                                {#window.location.reload()#}
+                            } else {
+                                {#alert(data.msg);#}
+                            }
+                        },
+                        error: function (data) {
+                            alert("修改失败")
+                        }
+                    });
+                } else {
+                    $("#file_input").click()
+                }
+            })
+
+
+        })
+    </script>
+</head>
+<body style='background: url(/static/img/bg_dark.gif);'>
+<div id="auto" style='background: url("/static/img/bg_dark.gif");    overflow:hidden;'>
+    <ul class="nav nav-pills" style="display: flex;    justify-content: center;">
+
+        <li class="nav-item">
+            <div style="background: url('/static/img/logo.png');    float: left;width: 100px;height: 36px;/* border: 1px solid; */background-size: 100px 36px;margin-right: 26px;"></div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link my " href="{% url 'student:index' %}">首页</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:course' %}">课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link my" href="{% url 'student:liveList' %}">直播</a>
+            </li>
+        {#        <li class="nav-item">#}
+{#            <a class="nav-link my" href="{% url 'student:assignments' %}">随堂作业</a>#}
+{#        </li>#}
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'student:community' %}">社区</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my myactive" href="{% url 'student:personal' %}">个人中心</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link my" href="{% url 'user:logout' %}?identity=0">退出登录</a>
+        </li>
+    </ul>
+    {#    <div class="courseTitle">#}
+    {#        <a href="{% url 'student:community' %}"><span>社区</span></a> / <a href="#"><span>文章</span></a>#}
+    {#    </div>#}
+    <div class="course">
+        <div class="perLeft">
+            <div style="   width: 150px;height: 150px;background-size: 150px, 150px;border-radius: 78px;overflow: hidden;display: flex;flex-wrap: nowrap;justify-content: center;align-items: center;">
+                <img id="leftAvatar" style="height: 150px" class="img" src="{% static 'media' %}/{{ student.studentinfo.avatar }}"
+                         alt="">
+            </div>
+            <a href="{% url 'student:personal' %}">
+                <div class="xuanxianglan xuanActive">个人信息</div>
+            </a>
+            <a href="{% url 'student:courseCollectS' %}">
+                <div class="xuanxianglan">课程收藏</div>
+            </a>
+            <a href="{% url 'student:WatchTheHistory' %}">
+                <div class="xuanxianglan">观看历史</div>
+            </a>
+            <a href="{% url 'student:abilityToLearn' %}">
+                <div class="xuanxianglan">学习信用评估</div>
+            </a>
+        </div>
+        <div class="perRight">
+            <div class="perInfo">
+                <div>姓名：{{ student.studentinfo.name }}</div>
+                <div>昵称：{{ student.studentinfo.nickname }}</div>
+                <div>性别：{{ student.studentinfo.sex }}</div>
+                <div>年龄：{{ student.studentinfo.age }}</div>
+            </div>
+            <div class="perInfo">
+                <div style="padding-left: 0;width: 150px;height: 150px;background-size: 150px, 150px;border-radius: 78px;overflow: hidden;display: flex;flex-wrap: nowrap;justify-content: center;align-items: center;">
+                    <img style="height: 150px" class="img" src="{% static 'media' %}/{{ student.studentinfo.avatar }}"
+                         alt="">
+                </div>
+            </div>
+            <div style="width: 50%;float: left;">
+                <a href="{% url 'student:editPersonalInfo' %}">
+                    <div class="editPersonalInfo">修改信息</div>
+                </a>
+            </div>
+            <div style="width: 50%;float: left;">
+                <div id="editAvatar" class="editPersonalInfo" style="margin-left: 34px;">修改头像</div>
+                <input type="file" id="file_input" accept="image/*" hidden>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bottom">
+        赛科学习平台
+    </div>
+
+</div>
+</body>
+</html>
